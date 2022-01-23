@@ -1,4 +1,4 @@
-import LoginPage from '../pageobjects/retirementClculator.page';
+import LoginPage from '../pageobjects/retirementCalculator.page';
 import SecurePage from '../pageobjects/secure.page';
 
 describe('My Login application', () => {
