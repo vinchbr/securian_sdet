@@ -1,7 +1,7 @@
 import {ChainablePromiseElement} from "webdriverio";
 
 export default class Section {
-    private scope: ChainablePromiseElement<Promise<WebdriverIO.Element>>;
+    public scope: ChainablePromiseElement<Promise<WebdriverIO.Element>>;
 
     constructor(scope: ChainablePromiseElement<Promise<WebdriverIO.Element>>) {
         this.scope = scope;

@@ -12,6 +12,10 @@ class ResultPage extends Page {
         return $('#retirement-amount-results');
     }
 
+    public get processingModal(): ChainablePromiseElement<Promise<WebdriverIO.Element>> {
+        return $('#calcSpinnerOnly-text');
+    }
+
     public get currentSavingsResults(): ChainablePromiseElement<Promise<WebdriverIO.Element>> {
         return $('#current-savings-results');
     }

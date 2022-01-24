@@ -73,7 +73,7 @@ class RetirementCalculatorPage extends Page {
   public get ssIncomeYes(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
-    return $("#yes-social-benefits");
+    return $('label[for="yes-social-benefits"]');
   }
 
   public get ssIncomeNo(): ChainablePromiseElement<
@@ -85,13 +85,13 @@ class RetirementCalculatorPage extends Page {
   public get maritalStatusSingle(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
-    return $("#single");
+    return $('label[for="single"]');
   }
 
   public get maritalStatusMarried(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
-    return $("#married");
+    return $('label[for="married"]');
   }
 
   public get ssOverride(): ChainablePromiseElement<
@@ -121,7 +121,7 @@ class RetirementCalculatorPage extends Page {
   public get calculate(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
-    return $('input[data-tag-id="submit"]');
+    return $('button[data-tag-id="submit"]');
   }
 
   public get clearForm(): ChainablePromiseElement<
@@ -131,7 +131,7 @@ class RetirementCalculatorPage extends Page {
   }
 
   public get calculatorValuesModal(): CalculatorValuesSection {
-    return new CalculatorValuesSection($(".modal-content"));
+    return new CalculatorValuesSection($("#default-values-modal"));
   }
 
   public get calculatorErrorToast(): ChainablePromiseElement<
@@ -141,8 +141,8 @@ class RetirementCalculatorPage extends Page {
   }
 
   public async fillAge(current: number, retirement: number): Promise<void> {
-    await this.currentAge.setValue(current);
-    await this.retirementAge.setValue(retirement);
+    await this.currentAge.addValue(current);
+    await this.retirementAge.addValue(retirement);
   }
 
   public async fillIncomeSavings(
@@ -152,11 +152,14 @@ class RetirementCalculatorPage extends Page {
     currentSaving: number,
     rateOfIncrease: number
   ): Promise<void> {
-    await this.currentIncome.setValue(current);
-    await this.spouseIncome.setValue(spouse);
-    await this.currentTotalSavings.setValue(totalSavings);
-    await this.currentAnnualSavings.setValue(currentSaving);
-    await this.savingsIncreaseRate.setValue(rateOfIncrease);
+    await this.currentIncome.click();
+    await this.currentIncome.addValue(current);
+    await this.spouseIncome.click();
+    await this.spouseIncome.addValue(spouse);
+    await this.currentTotalSavings.click();
+    await this.currentTotalSavings.addValue(totalSavings);
+    await this.currentAnnualSavings.addValue(currentSaving);
+    await this.savingsIncreaseRate.addValue(rateOfIncrease);
   }
 
   public async fillSocialSecurityIncome(
@@ -165,7 +168,7 @@ class RetirementCalculatorPage extends Page {
   ): Promise<void> {
     if (socialSecurityOverride) {
       await this.ssIncomeYes.click();
-      await this.maritalStatusMarried.waitForDisplayed();
+      await browser.pause(500);
       if (married) {
         await this.maritalStatusMarried.click();
       } else {
@@ -173,6 +176,10 @@ class RetirementCalculatorPage extends Page {
       }
       await this.ssOverride.setValue(socialSecurityOverride);
     }
+  }
+
+  public open(): Promise<string> {
+    return super.open("/insights-tools/retirement-calculator.html");
   }
 }
 

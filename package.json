@@ -5,10 +5,10 @@
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "wdio": "wdio run wdio.conf.js"
+        "wdio": "wdio run wdio.conf.ts"
     },
     "keywords": [],
-    "author": "",
+    "author": "Vicenzo Naves",
     "license": "ISC",
     "devDependencies": {
         "@wdio/cli": "^7.16.13",

@@ -29,13 +29,13 @@ class CalculatorValuesSection extends Section {
   public get includeInflation(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
-    return this.$("#include-inflation");
+    return this.$('label[for="include-inflation"]');
   }
 
   public get excludeInflation(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
-    return this.$("#exclude-inflation");
+    return this.$('label[for="exclude-inflation"]');
   }
 
   public get includeInflationTooltip(): ChainablePromiseElement<
@@ -105,18 +105,23 @@ class CalculatorValuesSection extends Section {
     preRetirementInvestment: number,
     postRetirementInvestment: number
   ) {
-    await this.additionalIncome.setValue(otherIncome);
-    await this.retirementDuration.setValue(yearsDependant);
-    if(increaseInflation) {
+    await this.additionalIncome.click();
+    await this.additionalIncome.addValue(otherIncome);
+    await this.retirementDuration.addValue(yearsDependant);
+    if (increaseInflation) {
       await this.includeInflation.click();
-      await this.expectedInflation.setValue(expectedInflation);
-
+      await browser.pause(500);
+      await this.expectedInflation.addValue(expectedInflation);
     }
-    await this.retirementAnnualIncome.setValue(finalIncomeAvailable);
-    await this.preRetirementROI.setValue(preRetirementInvestment);
-    await this.postRetirementROI.setValue(postRetirementInvestment);
+    await this.retirementAnnualIncome.click();
+    await this.retirementAnnualIncome.addValue(finalIncomeAvailable);
+    await this.preRetirementROI.click();
+    await this.preRetirementROI.addValue(preRetirementInvestment);
+    await this.postRetirementROI.click();
+    await this.postRetirementROI.addValue(postRetirementInvestment);
     await this.saveChanges.click();
-  };
+    await browser.pause(1000);
+  }
 }
 
 export default CalculatorValuesSection;
